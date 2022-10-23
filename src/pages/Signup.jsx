@@ -6,6 +6,9 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+
+// https://firebase.google.com/docs/firestore/manage-data/add-data
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "../Firebase.config.js";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 
@@ -44,6 +47,12 @@ function Signup() {
       updateProfile(auth.currentUser, {
         displayName: name,
       });
+
+      const formDataCopy = { ...formData };
+      delete formDataCopy.password;
+      formDataCopy.timestamp = serverTimestamp();
+
+      await setDoc(doc(db, "users", user.uid), formDataCopy);
 
       navigate("/");
     } catch (error) {
