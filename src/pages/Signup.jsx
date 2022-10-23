@@ -6,6 +6,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { toast } from "react-toastify";
 
 // https://firebase.google.com/docs/firestore/manage-data/add-data
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
@@ -57,6 +58,7 @@ function Signup() {
       navigate("/");
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong with Sign-Up!");
     }
   };
   return (
